@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coder's To-Do List</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1>Coder's To-Do List</h1>
+
+    <!-- Form to add custom tasks -->
+    <form action="/addtask" method="POST">
+      <input type="text" name="newtask" placeholder="Add a new task" required>
+      <select name="priority" required>
+        <option value="low">Low Priority</option>
+        <option value="medium">Medium Priority</option>
+        <option value="high">High Priority</option>
+      </select>
+      <input type="number" name="timeEstimate" placeholder="Estimated time (mins)" min="1" required>
+      <button type="submit">Add Task</button>
+    </form>
+
+    <!-- Section for tasks -->
+    <div class="task-section">
+      <h2>Your Tasks</h2>
+      <form action="/removetask" method="POST">
+        <ul>
+          <% tasks.forEach(function(task) { %>
+            <li class="task-item <%= task.priority %>-priority">
+              <input type="checkbox" name="check" value="<%= task.id %>" <%= task.completed ? 'checked' : '' %>>
+              <span class="task-title"><%= task.title %></span>
+              <span class="task-priority <%= task.priority %>"><%= task.priority.charAt(0).toUpperCase() + task.priority.slice(1) %></span>
+              <span class="task-time">Estimated: <%= task.timeEstimate %> mins</span>
+            </li>
+          <% }) %>
+        </ul>
+        <button type="submit">Remove Completed Tasks</button>
+      </form>
+      
+      <!-- Progress Bar -->
+      <div class="progress">
+        <h3>Progress</h3>
+        <div class="progress-bar" style="width: <%= progress || 0 %>%;"></div>
+      </div>
+    </div>
+
+    <!-- Motivational Quotes -->
+    <div class="quotes">
+      <h2>Motivational Quote</h2>
+      <p><%= quote %></p>
+    </div>
+  </div>
+</body>
+</html>
